@@ -1,0 +1,11 @@
+2026-10-28 09:58:02.114 INFO  EftTransferService - EFT request received txn=TX-20261028-0398 channel=MOBILE
+2026-10-28 09:58:02.391 INFO  EftTransferService - EFT sent to clearing txn=TX-20261028-0398
+2026-10-28 10:12:44.870 INFO  EftTransferService - EFT request received txn=TX-20261028-0412 channel=BRANCH
+2026-10-28 10:12:44.871 DEBUG IbanValidator - IBAN format check failed length=32 txn=TX-20261028-0412
+2026-10-28 10:12:44.872 WARN  EftTransferService - EFT-4042 beneficiary IBAN rejected txn=TX-20261028-0412
+2026-10-28 10:13:30.205 INFO  EftTransferService - EFT request received txn=TX-20261028-0413 channel=BRANCH
+2026-10-28 10:13:30.206 DEBUG IbanValidator - IBAN format check failed length=32 txn=TX-20261028-0413
+2026-10-28 10:13:30.207 WARN  EftTransferService - EFT-4042 beneficiary IBAN rejected txn=TX-20261028-0413
+2026-10-28 10:20:11.002 INFO  EftTransferService - EFT request received txn=TX-20261028-0420 channel=INTERNET
+2026-10-28 10:20:11.350 INFO  EftTransferService - EFT sent to clearing txn=TX-20261028-0420
+2026-10-28 10:31:57.640 ERROR ClearingClient - EFT-5001 clearing timeout txn=TX-20261028-0431 elapsed=30001ms

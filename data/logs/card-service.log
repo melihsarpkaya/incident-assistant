@@ -1,0 +1,11 @@
+2026-10-28 14:05:10.101 INFO  CardPaymentService - Card payment started txn=TX-20261028-0581 merchant=SHELL-IST-044
+2026-10-28 14:05:10.102 INFO  PaymentRetryHandler - Sending authorization txn=TX-20261028-0581 attempt=1 idempotencyKey=6f1c2b7a-1d0e-4c55-9a41-0b8c3e2d7f10
+2026-10-28 14:05:10.640 INFO  CardPaymentService - Card payment finished txn=TX-20261028-0581 status=APPROVED
+2026-10-28 14:22:31.450 INFO  CardPaymentService - Card payment started txn=TX-20261028-0587 merchant=MIGROS-ANK-112
+2026-10-28 14:22:31.451 INFO  PaymentRetryHandler - Sending authorization txn=TX-20261028-0587 attempt=1 idempotencyKey=a3d9e1f0-5b2c-4e8a-9f17-2c4b6d8e0a91
+2026-10-28 14:22:36.452 WARN  PaymentRetryHandler - Acquirer timeout txn=TX-20261028-0587 attempt=1
+2026-10-28 14:22:36.455 INFO  PaymentRetryHandler - Sending authorization txn=TX-20261028-0587 attempt=2 idempotencyKey=e72b4c19-8a3f-4d60-b5e2-91f0c7a3d248
+2026-10-28 14:22:37.012 INFO  CardPaymentService - Card payment finished txn=TX-20261028-0587 status=APPROVED
+2026-10-28 14:40:02.300 INFO  CardPaymentService - Card payment started txn=TX-20261028-0590 merchant=BIM-IZM-310
+2026-10-28 14:40:02.301 INFO  PaymentRetryHandler - Sending authorization txn=TX-20261028-0590 attempt=1 idempotencyKey=0c4e8b2d-7f13-4a96-8d5c-3b1e9f6a2c07
+2026-10-28 14:40:02.780 INFO  CardPaymentService - Card payment finished txn=TX-20261028-0590 status=APPROVED

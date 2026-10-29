@@ -1,0 +1,10 @@
+{
+  "id": "INC-1003",
+  "branch": "Izmir Alsancak Branch",
+  "reported_at": "2026-10-28T11:05:00",
+  "channel": "BRANCH",
+  "customer_id": null,
+  "transaction_id": null,
+  "screen_message": null,
+  "description": "The system is not working. Customers are complaining. Please fix it urgently."
+}

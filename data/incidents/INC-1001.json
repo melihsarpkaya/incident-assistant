@@ -1,0 +1,10 @@
+{
+  "id": "INC-1001",
+  "branch": "Ankara Kizilay Branch",
+  "reported_at": "2026-10-28T10:25:00",
+  "channel": "BRANCH",
+  "customer_id": "C-30871",
+  "transaction_id": "TX-20261028-0412",
+  "screen_message": "EFT-4042 Beneficiary IBAN invalid",
+  "description": "Customer wanted to send 15,000 TRY by EFT to their landlord. The teller typed the IBAN TR18 0006 2001 1900 0006 6723 15 from the printed contract. The screen showed EFT-4042 twice. The customer says the same IBAN works in mobile banking. Customer phone: 0532 111 22 33."
+}

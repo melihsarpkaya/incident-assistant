@@ -1,0 +1,10 @@
+{
+  "id": "INC-1004",
+  "branch": "Istanbul Levent Branch",
+  "reported_at": "2026-10-28T15:10:00",
+  "channel": "BRANCH",
+  "customer_id": "C-88001",
+  "transaction_id": null,
+  "screen_message": "APP-9999 Unexpected error",
+  "description": "While opening the customer's account summary screen, the teller application showed APP-9999. It happened once and the screen worked after a refresh."
+}

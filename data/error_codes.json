@@ -1,0 +1,7 @@
+{
+  "EFT-4042": {"service": "eft-service", "meaning": "Beneficiary IBAN failed validation before clearing", "owner": "IbanValidator", "severity": "customer-facing"},
+  "EFT-5001": {"service": "eft-service", "meaning": "Clearing house did not respond in time", "owner": "ClearingClient", "severity": "customer-facing"},
+  "CRD-5030": {"service": "card-service", "meaning": "Acquirer authorization failed after all retry attempts", "owner": "PaymentRetryHandler", "severity": "customer-facing"},
+  "CRD-4010": {"service": "card-service", "meaning": "Card is blocked or expired", "owner": "CardStatusService", "severity": "customer-facing"},
+  "ACC-1001": {"service": "account-service", "meaning": "Account is closed", "owner": "AccountService", "severity": "customer-facing"}
+}

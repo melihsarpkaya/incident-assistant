@@ -1,0 +1,10 @@
+{
+  "id": "INC-1002",
+  "branch": "Ankara Cankaya Branch",
+  "reported_at": "2026-10-28T16:40:00",
+  "channel": "BRANCH",
+  "customer_id": "C-20417",
+  "transaction_id": "TX-20261028-0587",
+  "screen_message": null,
+  "description": "Customer complains that a single grocery payment of 1,249.90 TRY at MIGROS-ANK-112 appears twice on the card statement today. The POS terminal showed one successful payment. Card number 4543 9600 1234 5678."
+}

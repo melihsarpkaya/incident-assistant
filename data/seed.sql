@@ -1,0 +1,25 @@
+CREATE TABLE transactions (
+    authorization_id TEXT PRIMARY KEY,
+    transaction_id   TEXT NOT NULL,
+    customer_id      TEXT NOT NULL,
+    type             TEXT NOT NULL,
+    channel          TEXT NOT NULL,
+    amount           REAL NOT NULL,
+    currency         TEXT NOT NULL,
+    counterparty     TEXT NOT NULL,
+    status           TEXT NOT NULL,
+    error_code       TEXT,
+    idempotency_key  TEXT,
+    created_at       TEXT NOT NULL
+);
+
+INSERT INTO transactions VALUES
+('EFT-0398', 'TX-20261028-0398', 'C-10233', 'EFT', 'MOBILE', 2500.00, 'TRY', 'IBAN ****8812', 'SENT', NULL, NULL, '2026-10-28 09:58:02'),
+('EFT-0412', 'TX-20261028-0412', 'C-30871', 'EFT', 'BRANCH', 15000.00, 'TRY', 'IBAN ****2315', 'REJECTED', 'EFT-4042', NULL, '2026-10-28 10:12:44'),
+('EFT-0413', 'TX-20261028-0413', 'C-30871', 'EFT', 'BRANCH', 15000.00, 'TRY', 'IBAN ****2315', 'REJECTED', 'EFT-4042', NULL, '2026-10-28 10:13:30'),
+('EFT-0420', 'TX-20261028-0420', 'C-55102', 'EFT', 'INTERNET', 780.00, 'TRY', 'IBAN ****0047', 'SENT', NULL, NULL, '2026-10-28 10:20:11'),
+('EFT-0431', 'TX-20261028-0431', 'C-77310', 'EFT', 'MOBILE', 4200.00, 'TRY', 'IBAN ****9930', 'FAILED', 'EFT-5001', NULL, '2026-10-28 10:31:57'),
+('AUTH-88119', 'TX-20261028-0581', 'C-20417', 'CARD', 'POS', 1650.00, 'TRY', 'SHELL-IST-044', 'APPROVED', NULL, '6f1c2b7a-1d0e-4c55-9a41-0b8c3e2d7f10', '2026-10-28 14:05:10'),
+('AUTH-88121', 'TX-20261028-0587', 'C-20417', 'CARD', 'POS', 1249.90, 'TRY', 'MIGROS-ANK-112', 'APPROVED', NULL, 'a3d9e1f0-5b2c-4e8a-9f17-2c4b6d8e0a91', '2026-10-28 14:22:31'),
+('AUTH-88122', 'TX-20261028-0587', 'C-20417', 'CARD', 'POS', 1249.90, 'TRY', 'MIGROS-ANK-112', 'APPROVED', NULL, 'e72b4c19-8a3f-4d60-b5e2-91f0c7a3d248', '2026-10-28 14:22:36'),
+('AUTH-88140', 'TX-20261028-0590', 'C-61950', 'CARD', 'POS', 312.40, 'TRY', 'BIM-IZM-310', 'APPROVED', NULL, '0c4e8b2d-7f13-4a96-8d5c-3b1e9f6a2c07', '2026-10-28 14:40:02');

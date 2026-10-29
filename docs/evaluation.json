@@ -1,0 +1,134 @@
+{
+  "INC-1001": {
+    "status": "root_cause_identified",
+    "confidence": "high",
+    "tool_calls": 8,
+    "report": {
+      "status": "root_cause_identified",
+      "summary": "The EFT transfer was rejected because the `IbanValidator.isValid()` method failed to normalize the IBAN string by removing whitespace before performing length and checksum checks, causing a valid printed-format IBAN to be incorrectly flagged as invalid.",
+      "root_cause": "The `IbanValidator.isValid()` method in `IbanValidator.java` performs format and checksum validation on the raw input without first normalizing it by removing spaces, which violates the requirement documented in `iban-rules.md` that mandates normalization before any validation step.",
+      "findings": [
+        {
+          "statement": "The system rejected a valid IBAN because the `IbanValidator.isValid()` method checks length and format on raw input containing spaces, failing the check for `TR_IBAN_LENGTH` (26) when the input includes formatting characters.",
+          "evidence_refs": [
+            "code:eft-service/src/main/java/com/demobank/eft/IbanValidator.java:18",
+            "doc:iban-rules.md#normalization"
+          ]
+        },
+        {
+          "statement": "The `EftTransferService` passed the beneficiary IBAN directly to `IbanValidator.isValid()` without applying any normalization logic, resulting in the rejection of the customer's input.",
+          "evidence_refs": [
+            "code:eft-service/src/main/java/com/demobank/eft/EftTransferService.java:23"
+          ]
+        },
+        {
+          "statement": "The transaction was rejected with error code `EFT-4042` because the IBAN validation failed before clearing, confirming that the rejection occurred during the initial format check.",
+          "evidence_refs": [
+            "catalog:EFT-4042",
+            "txn:EFT-0412"
+          ]
+        },
+        {
+          "statement": "The documentation explicitly states that customers commonly use printed formats with spaces (e.g., `TR** **** **** **** **** **23 15`) and this format must be accepted after normalization, yet the current code rejects such inputs.",
+          "evidence_refs": [
+            "doc:iban-rules.md#normalization"
+          ]
+        }
+      ],
+      "suggested_fix": "Modify `IbanValidator.isValid()` in `eft-service/src/main/java/com/demobank/eft/IbanValidator.java` to normalize the input string (remove whitespace and convert to uppercase) at the beginning of the method before executing the length check and checksum validation.",
+      "affected_files": [
+        "eft-service/src/main/java/com/demobank/eft/IbanValidator.java",
+        "eft-service/src/main/java/com/demobank/eft/EftTransferService.java"
+      ],
+      "confidence": "high",
+      "open_questions": [],
+      "verification_notes": []
+    }
+  },
+  "INC-1002": {
+    "status": "root_cause_identified",
+    "confidence": "high",
+    "tool_calls": 9,
+    "report": {
+      "status": "root_cause_identified",
+      "summary": "A duplicate charge occurred because the `PaymentRetryHandler` generated a new UUID for each retry attempt instead of reusing the initial idempotency key, causing two distinct transactions to be approved for the same customer request.",
+      "root_cause": "The code in `PaymentRetryHandler.java` generates a new `UUID.randomUUID()` inside the retry loop (line 23), violating the documented rule that the idempotency key must be generated once before the first attempt. This allowed two separate transactions with different keys to succeed when the first attempt timed out on the client side but succeeded at the acquirer.",
+      "findings": [
+        {
+          "statement": "The `PaymentRetryHandler.executeWithRetry()` method generates a new unique idempotency key for every iteration of the retry loop, rather than reusing the key from the first attempt.",
+          "evidence_refs": [
+            "code:card-service/src/main/java/com/demobank/card/PaymentRetryHandler.java:23",
+            "doc:card-payment-idempotency.md#rule"
+          ]
+        },
+        {
+          "statement": "Two separate transactions were approved in the database with different idempotency keys for the same transaction ID, confirming that the system treated each retry as a unique request.",
+          "evidence_refs": [
+            "txn:AUTH-88121",
+            "txn:AUTH-88122"
+          ]
+        },
+        {
+          "statement": "Logs confirm that the first attempt timed out on the client side (SocketTimeoutException) while the acquirer processed it successfully, triggering a second retry with a new key.",
+          "evidence_refs": [
+            "log:card-service.log:6",
+            "log:card-service.log:7"
+          ]
+        },
+        {
+          "statement": "The generated code violates the documented known risk that generating a new key inside the retry loop causes duplicate charges when the first attempt times out on the client side but succeeds at the acquirer.",
+          "evidence_refs": [
+            "doc:card-payment-idempotency.md#known-risk"
+          ]
+        }
+      ],
+      "suggested_fix": "Move the `idempotencyKey` generation to before the retry loop (line 21) and reuse the same key for all attempts. Change line 23 from `String idempotencyKey = UUID.randomUUID().toString();` to `String idempotencyKey = request.idempotencyKey() ?: UUID.randomUUID().toString();`.",
+      "affected_files": [
+        "card-service/src/main/java/com/demobank/card/PaymentRetryHandler.java"
+      ],
+      "confidence": "high",
+      "open_questions": [],
+      "verification_notes": []
+    }
+  },
+  "INC-1003": {
+    "status": "needs_clarification",
+    "confidence": "low",
+    "tool_calls": 0,
+    "report": {
+      "status": "needs_clarification",
+      "summary": "The incident does not contain an error code, transaction id or customer id to investigate.",
+      "root_cause": "Not investigated.",
+      "findings": [],
+      "suggested_fix": "",
+      "affected_files": [],
+      "confidence": "low",
+      "open_questions": [
+        "Is this issue affecting all customers at the branch or specific ones?",
+        "Are customers receiving generic 'System Unavailable' messages, or are they seeing specific error codes (e.g., EFT-xxxx, CRD-xxxx)?"
+      ],
+      "verification_notes": []
+    }
+  },
+  "INC-1004": {
+    "status": "insufficient_evidence",
+    "confidence": "low",
+    "tool_calls": 14,
+    "report": {
+      "status": "insufficient_evidence",
+      "summary": "The provided evidence logs do not explain the appearance of APP-9999 on the customer's account summary screen.",
+      "root_cause": "Not determined.",
+      "findings": [],
+      "suggested_fix": "",
+      "affected_files": [],
+      "confidence": "low",
+      "open_questions": [
+        "What triggered the APP-9999 error message on the account summary screen?",
+        "Is there a correlation between the EFT clearing timeout (TX-20261028-0431) and the reported incident (INC-1004)?"
+      ],
+      "verification_notes": [
+        "No finding is supported by collected evidence."
+      ]
+    }
+  }
+}
