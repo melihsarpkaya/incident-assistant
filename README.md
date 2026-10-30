@@ -157,7 +157,7 @@ The results come from live runs on 2026-10-29 with `qwen3.5:4b`. Small local mod
 
 | | |
 | --- | --- |
-| INC-1001 report with evidence | ![](docs/screenshots/INC-1001.png) |
+| INC-1001 report with evidence | ![](docs/screenshots/INC-1001.png) ![](docs/screenshots/INC-1001-console.png) |
 | Follow-up question (memory) | ![](docs/screenshots/INC-1001-followup.png) |
 | INC-1002 duplicate charge | ![](docs/screenshots/INC-1002.png) |
 | INC-1003 clarification | ![](docs/screenshots/INC-1003.png) |
