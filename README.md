@@ -180,7 +180,8 @@ mcp_server/
   server.py                MCP tools and resource
   repository.py            Logs, code, catalog, transactions
   retrieval.py             Documentation RAG
-data/                      Synthetic incidents, logs, docs, Java sources, seed SQL
+data/                      Synthetic incidents, logs, docs, seed SQL
+  workspace/               Java sources of the investigated services (reference code, not built or run)
 tests/                     Unit and routing tests (no model needed)
 ```
 

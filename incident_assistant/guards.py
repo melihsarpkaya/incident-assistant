@@ -73,7 +73,7 @@ def verify_citations(report: InvestigationReport, evidence: list[EvidenceItem]) 
             notes.append(f"Dropped unsupported finding: {finding.statement}")
 
     code_files = {ref.split(":")[1] for ref in known if ref.startswith("code:")}
-    affected = [f for f in report.affected_files if f in code_files or any(c.endswith(f) for c in code_files)]
+    affected = [f for f in report.affected_files if f and (f in code_files or any(c.endswith(f) for c in code_files))]
 
     update = {"findings": findings, "affected_files": affected, "verification_notes": notes}
     if report.status == "needs_clarification":

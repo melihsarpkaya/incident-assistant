@@ -140,6 +140,10 @@ for message in st.session_state.get("chat", []):
 if question := st.chat_input("Ask about this investigation, e.g. 'Which other channels can be affected?'"):
     st.chat_message("user").markdown(question)
     with st.spinner("Thinking..."):
-        answer = asyncio.run(ask_followup(st.session_state.thread_id, question))
+        try:
+            answer = asyncio.run(ask_followup(st.session_state.thread_id, question))
+        except Exception as error:  # noqa: BLE001 - surface any runtime failure to the user
+            st.error(f"{type(error).__name__}: {error}. Is Ollama running?")
+            st.stop()
     st.chat_message("assistant").markdown(answer)
     st.session_state.chat += [{"role": "user", "content": question}, {"role": "assistant", "content": answer}]

@@ -7,6 +7,7 @@ The `ref` values are the evidence identifiers the agent must cite in its report.
 import json
 import re
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 
 from incident_assistant.config import DATA_DIR, DB_PATH
@@ -96,7 +97,7 @@ def read_file(path: str, start_line: int = 1, end_line: int = MAX_READ_LINES) ->
 
 
 def _query(sql: str, params: tuple) -> list[dict]:
-    with sqlite3.connect(f"file:{DB_PATH}?mode=ro", uri=True) as connection:
+    with closing(sqlite3.connect(f"file:{DB_PATH}?mode=ro", uri=True)) as connection:
         connection.row_factory = sqlite3.Row
         return [dict(row) for row in connection.execute(sql, params).fetchall()]
 

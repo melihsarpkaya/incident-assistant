@@ -49,6 +49,12 @@ def test_verify_removes_invented_refs_and_lowers_confidence():
     assert len(result.verification_notes) == 3
 
 
+def test_verify_drops_empty_affected_file():
+    result = verify_citations(report([Finding(statement="x", evidence_refs=["log:eft-service.log:4"])]).model_copy(
+        update={"affected_files": ["", "eft-service/A.java"]}), EVIDENCE)
+    assert result.affected_files == ["eft-service/A.java"]
+
+
 def test_verify_without_evidence_means_insufficient_evidence():
     result = verify_citations(report([Finding(statement="guess", evidence_refs=["code:X.java:1"])]), [])
     assert result.status == "insufficient_evidence" and result.confidence == "low"

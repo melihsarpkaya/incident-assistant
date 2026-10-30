@@ -182,6 +182,9 @@ def build_graph(tools: list):
         return {"report": verify_citations(state["report"], collect_evidence(state))}
 
     async def followup(state: State) -> dict:
+        if blocked := detect_injection(state["question"]):
+            answer = f"Question rejected by input guard: {blocked}"
+            return {"followups": state.get("followups", []) + [{"question": state["question"], "answer": answer}]}
         history = "\n".join(f"Q: {f['question']}\nA: {f['answer']}" for f in state.get("followups", []))
         prompt = prompts.FOLLOWUP.format(
             report=state["report"].model_dump_json(indent=2),
@@ -203,7 +206,8 @@ def build_graph(tools: list):
 
     def route_after_investigate(state: State) -> str:
         last = state["messages"][-1]
-        if last.tool_calls and state["tool_calls"] < MAX_TOOL_CALLS:
+        # A batch that would exceed the budget is not executed; the report is written from what was collected.
+        if last.tool_calls and state["tool_calls"] + len(last.tool_calls) <= MAX_TOOL_CALLS:
             return "tools"
         return "report"
 
